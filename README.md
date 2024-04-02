@@ -1,4 +1,4 @@
-# gin-vue-admin web 
+# IDO's management platform for web 
 
 ## Project setup
 ```
