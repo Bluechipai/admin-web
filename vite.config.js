@@ -8,6 +8,7 @@ import * as path from 'path'
 import * as dotenv from 'dotenv'
 import * as fs from 'fs'
 import vuePlugin from '@vitejs/plugin-vue'
+
 import GvaPosition from './vitePlugin/gvaPosition'
 import GvaPositionServer from './vitePlugin/codeServer'
 import fullImportPlugin from './vitePlugin/fullImport/fullImport.js'
@@ -16,7 +17,7 @@ export default ({
   command,
   mode
 }) => {
-  const NODE_ENV = process.env.NODE_ENV || 'development'
+  const NODE_ENV = mode || 'development'
   const envFiles = [
     `.env.${NODE_ENV}`
   ]
@@ -41,8 +42,8 @@ export default ({
   const esbuild = {}
 
   const config = {
-    base: './', // index.html wén jiàn suǒ zài wèi zhì
-    root: './', // js dǎo rù de zī yuán lù jìng，src
+    base: './', 
+    root: './',
     resolve: {
       alias,
     },
@@ -50,24 +51,22 @@ export default ({
       'process.env': {}
     },
     server: {
-      //  rú guǒ shǐ yòngdocker-compose kāi fā mó shì， shè zhì wèifalse
       open: true,
       port: process.env.VITE_CLI_PORT,
       proxy: {
-        //  bǎkey de lù jìng dài lǐ dàotarget wèi zhì
-        // detail: https://cli.vuejs.org/config/#devserver-proxy
-        [process.env.VITE_BASE_API]: { //  xū yào dài lǐ de lù jìng    lì rú '/api'
-          target: `${process.env.VITE_BASE_PATH}:${process.env.VITE_SERVER_PORT}/`, //  dài lǐ dào  mù biāo lù jìng
+        // edit: https://cli.vuejs.org/config/#devserver-proxy
+        [process.env.VITE_BASE_API]: {
+          target: `${process.env.VITE_BASE_PATH}:${process.env.VITE_SERVER_PORT}/`,
           changeOrigin: true,
-          rewrite: path => path.replace(new RegExp('^' + process.env.VITE_BASE_API), ''),
+          //rewrite: path => path.replace(new RegExp('^' + process.env.VITE_BASE_API), ''),
         }
       },
     },
     build: {
-      minify: 'terser', //  shì fǒu jìn xíng yā suō,boolean | 'terser' | 'esbuild', mò rèn shǐ yòngterser
-      manifest: false, //  shì fǒu chǎn chūmanifest.json
-      sourcemap: false, //  shì fǒu chǎn chūsourcemap.json
-      outDir: 'dist', //  chǎn chū mù lù
+      minify: 'terser', // boolean | 'terser' | 'esbuild'
+      manifest: false, // manifest.json
+      sourcemap: false, // sourcemap.json
+      outDir: 'dist', 
       // rollupOptions,
     },
     esbuild,
@@ -79,7 +78,7 @@ export default ({
         targets: ['Android > 39', 'Chrome >= 60', 'Safari >= 10.1', 'iOS >= 10.3', 'Firefox >= 54', 'Edge >= 15'],
       }),
       vuePlugin(),
-      [Banner(`\n Build based on gin-vue-admin \n Time : ${timestamp}`)]
+      [Banner(`\n Build based on ido-admin \n Time : ${timestamp}`)]
     ],
     css: {
       preprocessorOptions: {
